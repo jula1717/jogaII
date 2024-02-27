@@ -13,8 +13,8 @@ data class Asana(
     val description: String,
     val columnTypeId: Int,
     val difficulty: Int,
-    val completed: Boolean,
     val imgRes: Int,
+    val completed: Boolean,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 
 ) : Parcelable {
