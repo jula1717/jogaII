@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/action_show_progress"
+        android:icon="@drawable/ic_success"
+        android:title="@string/achievements"
+        app:showAsAction="always"/>
+
+    <item
+        android:icon="@drawable/ic_sort"
+        android:title="Sort"
+        app:showAsAction="always">
+
+        <menu>
+
+            <item
+                android:id="@+id/action_sort_by_name"
+                android:title="@string/name" />
+
+            <item
+                android:id="@+id/action_sort_by_sanskrit"
+                android:title="@string/sanskrit" />
+
+            <item
+                android:id="@+id/action_sort_by_difficulty"
+                android:title="@string/difficulty" />
+            <item
+                android:id="@+id/action_sort_by_completed"
+                android:title="@string/complete" />
+            <item
+                android:id="@+id/action_sort_by_uncompleted"
+                android:title="@string/uncomplete" />
+            <item
+                android:id="@+id/action_sort_by_type"
+                android:title="@string/type" />
+
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/action_hide_completed_tasks"
+        android:checkable="true"
+        android:title="@string/ukryj_zako_czone"
+        app:showAsAction="never" />
+
+
+</menu>

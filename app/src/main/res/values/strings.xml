@@ -15,11 +15,12 @@
     <string name="name">nazwa</string>
     <string name="sanskrit">sanskryt</string>
     <string name="difficulty">poziom trudności</string>
-    <string name="done">nauczone</string>
-    <string name="undone">nienauczone</string>
+    <string name="complete">ukończone</string>
+    <string name="uncomplete">nieukończone</string>
     <string name="type">typ asany</string>
     <string name="about">o aplikacji</string>
-
+    <string name="search">wyszukaj</string>
+    <string name="ukryj_zako_czone">ukryj zakończone</string>
 
 
 </resources>
