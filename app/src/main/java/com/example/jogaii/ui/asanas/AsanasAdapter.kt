@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jogaii.R
-import com.example.jogaii.data.Asana
+import com.example.jogaii.data.AsanaWithType
 import com.example.jogaii.databinding.ItemAsanaBinding
 
 
-class AsanasAdapter : ListAdapter<Asana, AsanasAdapter.AsanaViewHolder>(DiffCallback()) {
+class AsanasAdapter : ListAdapter<AsanaWithType, AsanasAdapter.AsanaViewHolder>(DiffCallback()) {
 
     class AsanaViewHolder(private val binding: ItemAsanaBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(asana: Asana) {
+        fun bind(asana: AsanaWithType) {
             binding.apply {
                 txtAsanaSanskritName.text = asana.sanskritName
                 txtAsanaName.text = asana.name
@@ -35,11 +35,11 @@ class AsanasAdapter : ListAdapter<Asana, AsanasAdapter.AsanaViewHolder>(DiffCall
         holder.bind(currentItem)
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Asana>() {
-        override fun areItemsTheSame(oldItem: Asana, newItem: Asana): Boolean =
+    class DiffCallback : DiffUtil.ItemCallback<AsanaWithType>() {
+        override fun areItemsTheSame(oldItem: AsanaWithType, newItem: AsanaWithType): Boolean =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Asana, newItem: Asana): Boolean =
+        override fun areContentsTheSame(oldItem: AsanaWithType, newItem: AsanaWithType): Boolean =
             oldItem == newItem
 
     }
