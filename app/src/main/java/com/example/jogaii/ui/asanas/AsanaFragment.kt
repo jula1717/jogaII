@@ -47,28 +47,36 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
        return when(item.itemId){
             R.id.action_show_progress->{
+
                 true
             }
             R.id.action_sort_by_name->{
+                viewModel.sortOrder.value=SortOrder.BY_NAME
                 true
             }
             R.id.action_sort_by_sanskrit->{
+                viewModel.sortOrder.value=SortOrder.BY_SANSKRIT
                 true
             }
             R.id.action_sort_by_difficulty->{
+                viewModel.sortOrder.value=SortOrder.BY_DIFFICULTY
                 true
             }
             R.id.action_sort_by_completed->{
+                viewModel.sortOrder.value=SortOrder.BY_COMPLETED
                 true
             }
             R.id.action_sort_by_uncompleted->{
+                viewModel.sortOrder.value=SortOrder.BY_UNCOMPLETED
                 true
             }
             R.id.action_sort_by_type->{
+                viewModel.sortOrder.value=SortOrder.BY_TYPE
                 true
             }
             R.id.action_hide_completed_tasks->{
                 item.isChecked=!item.isChecked
+                viewModel.hideCompleted.value=item.isChecked
                 true
             }
             else -> super.onOptionsItemSelected(item)
