@@ -8,11 +8,15 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jogaii.R
+import com.example.jogaii.data.SortOrder
 import com.example.jogaii.databinding.FragmentAsanasBinding
 import com.example.jogaii.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AsanaFragment : Fragment(R.layout.fragment_asanas) {
@@ -42,6 +46,9 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas) {
         searchView.onQueryTextChanged{
             viewModel.searchQuery.value=it
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            menu.findItem(R.id.action_hide_completed_tasks).isChecked=viewModel.preferencesFlow.first().hideCompleted
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -51,32 +58,32 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas) {
                 true
             }
             R.id.action_sort_by_name->{
-                viewModel.sortOrder.value=SortOrder.BY_NAME
+                viewModel.onSortOrderSelected(SortOrder.BY_NAME)
                 true
             }
             R.id.action_sort_by_sanskrit->{
-                viewModel.sortOrder.value=SortOrder.BY_SANSKRIT
+                viewModel.onSortOrderSelected(SortOrder.BY_SANSKRIT)
                 true
             }
             R.id.action_sort_by_difficulty->{
-                viewModel.sortOrder.value=SortOrder.BY_DIFFICULTY
+                viewModel.onSortOrderSelected(SortOrder.BY_DIFFICULTY)
                 true
             }
             R.id.action_sort_by_completed->{
-                viewModel.sortOrder.value=SortOrder.BY_COMPLETED
+                viewModel.onSortOrderSelected(SortOrder.BY_COMPLETED)
                 true
             }
             R.id.action_sort_by_uncompleted->{
-                viewModel.sortOrder.value=SortOrder.BY_UNCOMPLETED
+                viewModel.onSortOrderSelected(SortOrder.BY_UNCOMPLETED)
                 true
             }
             R.id.action_sort_by_type->{
-                viewModel.sortOrder.value=SortOrder.BY_TYPE
+                viewModel.onSortOrderSelected(SortOrder.BY_TYPE)
                 true
             }
             R.id.action_hide_completed_tasks->{
                 item.isChecked=!item.isChecked
-                viewModel.hideCompleted.value=item.isChecked
+                viewModel.onHideCompletedClicked(item.isChecked)
                 true
             }
             else -> super.onOptionsItemSelected(item)

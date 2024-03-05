@@ -2,28 +2,39 @@ package com.example.jogaii.ui.asanas
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.jogaii.data.AsanaDao
+import com.example.jogaii.data.PreferencesManager
+import com.example.jogaii.data.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AsanasViewModel @Inject constructor(
-    private val asanaDao: AsanaDao
+    private val asanaDao: AsanaDao,
+    private val preferencesManager: PreferencesManager
 ) : ViewModel() {
     val searchQuery = MutableStateFlow("")
-    val sortOrder = MutableStateFlow(SortOrder.BY_SANSKRIT)
-    val hideCompleted = MutableStateFlow(false)
+    val preferencesFlow = preferencesManager.preferencesFlow
 
-    val asanasFlow = combine(searchQuery, sortOrder, hideCompleted) { query, sort, hide ->
-        Triple(query, sort, hide)
-    }.flatMapLatest { (mQuery, mSort, mHide) ->
-        asanaDao.getAsanas(mQuery, mSort, mHide)
+    val asanasFlow = combine(searchQuery, preferencesFlow) { query, preferences ->
+        Pair(query, preferences)
+    }.flatMapLatest { (mQuery, mPreferences) ->
+        asanaDao.getAsanas(mQuery, mPreferences.sortOrder,mPreferences.hideCompleted)
+    }
+
+    fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
+        preferencesManager.updateSortOrder(sortOrder)
+    }
+
+    fun onHideCompletedClicked(hideCompleted: Boolean) = viewModelScope.launch {
+        preferencesManager.updateHideCompleted(hideCompleted)
     }
 
     val asanas = asanasFlow.asLiveData()
 }
 
-enum class SortOrder { BY_NAME, BY_SANSKRIT, BY_DIFFICULTY, BY_COMPLETED, BY_UNCOMPLETED, BY_TYPE }

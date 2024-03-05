@@ -52,7 +52,6 @@ dependencies {
     //lifecycle
     val lifecycle_version = "2.7.0"
     val arch_version = "2.2.0"
-
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
@@ -78,6 +77,10 @@ dependencies {
     val hilt_version = "2.48"
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    //dataStore
+    val datastore_version = "1.0.0-alpha02"
+    implementation("androidx.datastore:datastore-preferences:$datastore_version")
 
 
     implementation("androidx.core:core-ktx:1.12.0")
