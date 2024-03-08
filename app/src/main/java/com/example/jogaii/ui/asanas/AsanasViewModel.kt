@@ -1,9 +1,12 @@
 package com.example.jogaii.ui.asanas
 
+import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.jogaii.data.Asana
 import com.example.jogaii.data.AsanaDao
+import com.example.jogaii.data.AsanaWithType
 import com.example.jogaii.data.PreferencesManager
 import com.example.jogaii.data.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +30,9 @@ class AsanasViewModel @Inject constructor(
         asanaDao.getAsanas(mQuery, mPreferences.sortOrder,mPreferences.hideCompleted)
     }
 
+    val asanas = asanasFlow.asLiveData()
+
+
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)
     }
@@ -35,6 +41,15 @@ class AsanasViewModel @Inject constructor(
         preferencesManager.updateHideCompleted(hideCompleted)
     }
 
-    val asanas = asanasFlow.asLiveData()
+    fun updateAsanaCompletion(asana: Asana, imgComplete: ImageView, imgAsana: ImageView) = viewModelScope.launch {
+        val newState = !asana.completed
+        asanaDao.update(asana.copy(completed = newState))
+    }
+
+
+    fun openDetails(asana: AsanaWithType){
+
+    }
+
 }
 

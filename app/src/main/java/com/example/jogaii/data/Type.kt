@@ -8,8 +8,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "types_table")
 data class Type(
-    val name: String,
-    val imgRes: Int,
-    @PrimaryKey(autoGenerate = true) val id: Int = 0
+    val typeName: String,
+    val typeImgRes: Int,
+    @PrimaryKey(autoGenerate = true) val typeId: Int = 0
 ) : Parcelable {
 }

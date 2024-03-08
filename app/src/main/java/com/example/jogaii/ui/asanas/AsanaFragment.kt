@@ -5,26 +5,30 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.jogaii.R
+import com.example.jogaii.data.Asana
+import com.example.jogaii.data.AsanaWithType
 import com.example.jogaii.data.SortOrder
 import com.example.jogaii.databinding.FragmentAsanasBinding
+import com.example.jogaii.ui.asanas.AsanasAdapter.OnItemClickListener
 import com.example.jogaii.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AsanaFragment : Fragment(R.layout.fragment_asanas) {
+class AsanaFragment : Fragment(R.layout.fragment_asanas), OnItemClickListener {
     private val viewModel: AsanasViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentAsanasBinding.bind(view)
-        val asanaAdapter = AsanasAdapter()
+        val asanaAdapter = AsanasAdapter(this)
         binding.apply {
             asanasRecyclerview.apply {
                 adapter = asanaAdapter
@@ -89,4 +93,13 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas) {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onItemClick(asana: AsanaWithType) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDoneIconClick(asana: Asana, imgComplete: ImageView, imgAsana: ImageView) {
+        viewModel.updateAsanaCompletion(asana,imgComplete,imgAsana)
+    }
+
 }

@@ -15,7 +15,7 @@ data class Asana(
     val difficulty: Int,
     val imgRes: Int,
     val completed: Boolean,
-    @PrimaryKey(autoGenerate = true) val id: Int = 0
+    @PrimaryKey(autoGenerate = true) val asanaId: Int = 0
 
 ) : Parcelable {
 }
