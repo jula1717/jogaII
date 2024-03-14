@@ -8,6 +8,19 @@
     <fragment
         android:id="@+id/asanaFragment"
         android:name="com.example.jogaii.ui.asanas.AsanaFragment"
-        android:label="fragment_asanas"
-        tools:layout="@layout/fragment_asanas" />
+        android:label="Asany"
+        tools:layout="@layout/fragment_asanas">
+        <action
+            android:id="@+id/action_asanaFragment_to_detailsFragment2"
+            app:destination="@id/detailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment2"
+        android:name="com.example.jogaii.ui.details.DetailsFragment"
+        android:label="Szczegóły"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="asana"
+            app:argType="com.example.jogaii.data.AsanaWithType" />
+    </fragment>
 </navigation>
