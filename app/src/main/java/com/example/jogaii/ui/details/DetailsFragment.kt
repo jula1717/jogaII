@@ -18,7 +18,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.apply {
             txtSanskritName.text = viewModel.sanskritName
             txtAsanaType.text = viewModel.type
-            //TODO: progressBar ustawić na wartość difficulty i ikonę odpowiednio, w on create img też na pocztątku powinien być chyba invisible
+            pbDifficultyLevel.setMax(5*1000)
+            pbDifficultyLevel.setProgress(viewModel.difficulty*1000)
+            val visibility = if(viewModel.completed) View.VISIBLE else View.INVISIBLE
+            imgDone.visibility = visibility
+            txtDescription.visibility = View.INVISIBLE
             txtDescription.text = viewModel.description
             imgAsana.setImageResource(viewModel.imgRes)
             txtName.text = viewModel.asanaName
