@@ -25,43 +25,48 @@ interface AsanaDao {
         SortOrder.BY_TYPE -> getAsanasSortedByType(searchQuery, hideCompleted)
     }
 
+    companion object {
+        const val BASE_QUERY =
+            "SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%' OR types_table.typeName LIKE '%' || :searchQuery || '%')"
+    }
+
     @Transaction
-    @Query("SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%') ORDER BY asanas_table.name")
+    @Query("$BASE_QUERY ORDER BY asanas_table.name")
     fun getAsanasSortedByName(
         searchQuery: String,
         hideCompleted: Boolean
     ): Flow<List<AsanaWithType>>
 
     @Transaction
-    @Query("SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%') ORDER BY asanas_table.sanskritName")
+    @Query("$BASE_QUERY ORDER BY asanas_table.sanskritName")
     fun getAsanasSortedBySanskrit(
         searchQuery: String,
         hideCompleted: Boolean
     ): Flow<List<AsanaWithType>>
 
     @Transaction
-    @Query("SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%') ORDER BY asanas_table.difficulty")
+    @Query("$BASE_QUERY ORDER BY asanas_table.difficulty")
     fun getAsanasSortedByDifficulty(
         searchQuery: String,
         hideCompleted: Boolean
     ): Flow<List<AsanaWithType>>
 
     @Transaction
-    @Query("SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%') ORDER BY asanas_table.completed ASC")
+    @Query("$BASE_QUERY ORDER BY asanas_table.completed ASC")
     fun getAsanasSortedByCompleted(
         searchQuery: String,
         hideCompleted: Boolean
     ): Flow<List<AsanaWithType>>
 
     @Transaction
-    @Query("SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%') ORDER BY asanas_table.completed DESC")
+    @Query("$BASE_QUERY ORDER BY asanas_table.completed DESC")
     fun getAsanasSortedByUncompleted(
         searchQuery: String,
         hideCompleted: Boolean
     ): Flow<List<AsanaWithType>>
 
     @Transaction
-    @Query("SELECT asanas_table.*, types_table.* FROM asanas_table INNER JOIN types_table ON asanas_table.columnTypeId = types_table.typeId WHERE (asanas_table.completed != :hideCompleted OR asanas_table.completed = 0) AND (asanas_table.name LIKE '%' || :searchQuery || '%' OR asanas_table.sanskritName LIKE '%' || :searchQuery || '%') ORDER BY asanas_table.columnTypeId")
+    @Query("$BASE_QUERY ORDER BY asanas_table.columnTypeId")
     fun getAsanasSortedByType(
         searchQuery: String,
         hideCompleted: Boolean
