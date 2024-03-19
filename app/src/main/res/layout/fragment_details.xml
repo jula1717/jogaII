@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    tools:context=".ui.details.DetailsFragment"
     android:orientation="vertical">
 
     <TextView
@@ -13,6 +15,7 @@
         android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
         android:background="@color/s5"
+        android:textColor="@color/white"
         android:gravity="center"
         android:paddingVertical="10dp"
         android:textSize="30sp"
@@ -32,7 +35,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
                 android:background="@color/s2"
                 android:orientation="horizontal">
 
@@ -100,21 +102,24 @@
                     android:id="@+id/imgAsana"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:tint="@color/gray" />
+                    android:scaleType="center"
+                    app:tint="@color/gray"
+                    tools:src="@drawable/ananda_balasana" />
 
                 <TextView
                     android:id="@+id/txtDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
                     android:padding="10dp"
                     android:scrollbars="vertical"
                     android:text="@string/lorem_ipsum"
+                    android:textAlignment="textStart"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:gravity="start|center_vertical"/>
 
                 <ImageView
-                    android:id="@+id/imgDescriptionImageChange"
+                    android:id="@+id/imgReverse"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
@@ -141,6 +146,7 @@
         android:layout_height="wrap_content"
         android:autoSizeTextType="uniform"
         android:background="@color/s5"
+        android:textColor="@color/white"
         android:gravity="center"
         android:paddingVertical="10dp"
         android:text="@string/sample_name"
@@ -148,3 +154,4 @@
 
 
 </LinearLayout>
+</layout>

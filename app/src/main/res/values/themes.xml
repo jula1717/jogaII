@@ -3,7 +3,14 @@
     <style name="Base.Theme.Jogaii" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/s5</item>
+        <item name="actionOverflowButtonStyle">@style/ThreeDotColor</item>
     </style>
 
     <style name="Theme.Jogaii" parent="Base.Theme.Jogaii" />
+
+    <style name="ThreeDotColor" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="tint">@color/white</item>
+    </style>
+
 </resources>
