@@ -1,5 +1,6 @@
 package com.example.jogaii.ui.details
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.jogaii.data.AsanaDao
@@ -12,6 +13,9 @@ class DetailsViewModel @Inject constructor(
     private val state: SavedStateHandle,
     private val asanaDao: AsanaDao
 ) : ViewModel() {
+
+    var imgVisible = MutableLiveData<Boolean>().apply { value = true }
+
     val asana = state.get<AsanaWithType>("asana")
 
     var asanaName = state.get<String>("asanaName") ?: asana?.asana?.name ?: ""
@@ -55,5 +59,9 @@ class DetailsViewModel @Inject constructor(
             field = value
             state.set("type",value)
         }
+
+    fun toggleImageVisibility() {
+        imgVisible.value = !(imgVisible.value ?: true)
+    }
 
 }
