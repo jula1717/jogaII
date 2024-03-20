@@ -6,6 +6,7 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.example.jogaii.R
 import com.example.jogaii.animations.ProgressBarAnimation
 import com.example.jogaii.databinding.FragmentDetailsBinding
@@ -19,7 +20,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentDetailsBinding.bind(view)
         binding.apply {
-            //val asana = args.asana
             txtSanskritName.text = viewModel.sanskritName
             txtAsanaType.text = viewModel.type
             val anim = ProgressBarAnimation(pbDifficultyLevel, 0f, viewModel.difficulty * 1000f)
@@ -27,8 +27,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             pbDifficultyLevel.setMax(5 * 1000)
             pbDifficultyLevel.startAnimation(anim)
             pbDifficultyLevel.setProgress(viewModel.difficulty * 1000)
-            val visibility = if (viewModel.completed) View.VISIBLE else View.INVISIBLE
-            imgDone.visibility = visibility
+            val color = if(viewModel.completed) R.color.s3 else R.color.light_gray
+            imgDone.setColorFilter(color)
             txtDescription.visibility = View.GONE
             txtDescription.text = viewModel.description
             imgAsana.setImageResource(viewModel.imgRes)
@@ -38,16 +38,30 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 viewModel.toggleImageVisibility()
             }
 
+            imgDone.setOnClickListener {
+                viewModel.completed = !viewModel.completed
+                viewModel.imgDoneClicked()
+            }
+
 
             viewModel.imgVisible.observe(viewLifecycleOwner, Observer { imgVisible ->
 
-                if(imgVisible){
+                if (imgVisible) {
                     imgAsana.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
-                    txtDescription.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
-                }
-                else{
+                    txtDescription.startAnimation(
+                        AnimationUtils.loadAnimation(
+                            context,
+                            R.anim.zoom_out
+                        )
+                    )
+                } else {
                     imgAsana.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
-                    txtDescription.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
+                    txtDescription.startAnimation(
+                        AnimationUtils.loadAnimation(
+                            context,
+                            R.anim.zoom_in
+                        )
+                    )
                 }
 
                 imgAsana.visibility = if (imgVisible) View.VISIBLE else View.GONE
@@ -56,5 +70,20 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             })
 
         }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.detailsEvent.collect { event ->
+                when (event) {
+                    is DetailsViewModel.DetailsEvent.changeImgDone -> {
+                        val color = if(event.completed) R.color.s3 else R.color.light_gray
+                        binding.apply {
+                            imgDone.setColorFilter(color)
+                        }
+                    }
+                }
+            }
+        }
     }
+
+}
 
