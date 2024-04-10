@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class AsanaFragment : Fragment(R.layout.fragment_asanas), OnItemClickListener {
     private val viewModel: AsanasViewModel by viewModels()
+    private lateinit var searchView:SearchView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentAsanasBinding.bind(view)
@@ -78,7 +79,13 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas), OnItemClickListener {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_fragment_asanas, menu)
                 val searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem.actionView as SearchView
+                searchView = searchItem.actionView as SearchView
+
+                val pendingQuery = viewModel.searchQuery.value
+                if(pendingQuery!=null&&pendingQuery.isNotEmpty()){
+                    searchItem.expandActionView()
+                    searchView.setQuery(pendingQuery,false)
+                }
 
                 searchView.onQueryTextChanged{
                     viewModel.searchQuery.value=it
@@ -128,4 +135,8 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas), OnItemClickListener {
         }, viewLifecycleOwner)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchView.setOnQueryTextListener(null)
+    }
 }
