@@ -52,14 +52,16 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas), OnItemClickListener {
                         findNavController().navigate(action)
                     }
 
-                    else -> {}
+                   is AsanasViewModel.AsanasEvent.NavigateToProgressScreen -> {
+                       val action = AsanaFragmentDirections.actionAsanaFragmentToProgressFragment()
+                       findNavController().navigate(action)
+                   }
                 }
 
             }.exhaustive
         }
 
         addMenu()
-      setHasOptionsMenu(true)
     }
 
     override fun onItemClick(asana: AsanaWithType) {
@@ -88,7 +90,7 @@ class AsanaFragment : Fragment(R.layout.fragment_asanas), OnItemClickListener {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_show_progress->{
-
+                        viewModel.onProgressIconClicked()
                         true
                     }
                     R.id.action_sort_by_name->{
