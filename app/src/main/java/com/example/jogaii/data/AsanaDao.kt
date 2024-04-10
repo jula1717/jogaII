@@ -92,4 +92,7 @@ interface AsanaDao {
 
     @Delete
     suspend fun delete(type: Type)
+
+    @Query ("SELECT types_table.*, COUNT(asanas_table.asanaId) AS totalAsanas, COUNT(CASE WHEN asanas_table.completed = 1 THEN 1 ELSE NULL END) AS completedAsanas FROM types_table LEFT JOIN asanas_table ON types_table.typeId = asanas_table.columnTypeId GROUP BY types_table.typeId")
+    fun getAsanaTypesProgress(): Flow<List<AsanaTypeProgress>>
 }

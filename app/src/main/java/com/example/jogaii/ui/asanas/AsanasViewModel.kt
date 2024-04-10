@@ -57,8 +57,13 @@ class AsanasViewModel @Inject constructor(
         asanasEventChannel.send(AsanasEvent.NavigateToDetailsScreen(asana))
     }
 
+    fun onProgressIconClicked() = viewModelScope.launch{
+        asanasEventChannel.send(AsanasEvent.NavigateToProgressScreen)
+    }
+
     sealed class AsanasEvent {
         data class NavigateToDetailsScreen(val asana: AsanaWithType) : AsanasEvent()
+        object NavigateToProgressScreen : AsanasEvent()
     }
 
 }

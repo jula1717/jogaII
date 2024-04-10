@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_asanaFragment_to_detailsFragment2"
             app:destination="@id/detailsFragment2" />
+        <action
+            android:id="@+id/action_asanaFragment_to_progressFragment"
+            app:destination="@id/progressFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment2"
@@ -23,4 +26,9 @@
             android:name="asana"
             app:argType="com.example.jogaii.data.AsanaWithType" />
     </fragment>
+    <fragment
+        android:id="@+id/progressFragment"
+        android:name="com.example.jogaii.ui.progress.ProgressFragment"
+        android:label="Progres"
+        tools:layout="@layout/fragment_progress" />
 </navigation>
