@@ -1,8 +1,11 @@
 package com.example.jogaii.ui.details
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -27,8 +30,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             pbDifficultyLevel.setMax(5 * 1000)
             pbDifficultyLevel.startAnimation(anim)
             pbDifficultyLevel.setProgress(viewModel.difficulty * 1000)
-            val color = if(viewModel.completed) R.color.s3 else R.color.light_gray
-            imgDone.setColorFilter(color)
+            imgDone.colorFilter=getColorFilter(viewModel.completed)
             txtDescription.visibility = View.GONE
             txtDescription.text = viewModel.description
             imgAsana.setImageResource(viewModel.imgRes)
@@ -75,14 +77,20 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             viewModel.detailsEvent.collect { event ->
                 when (event) {
                     is DetailsViewModel.DetailsEvent.changeImgDone -> {
-                        val color = if(event.completed) R.color.s3 else R.color.light_gray
                         binding.apply {
-                            imgDone.setColorFilter(color)
+                            imgDone.colorFilter=getColorFilter(event.completed)
                         }
                     }
                 }
             }
         }
+
+    }
+    private fun getColorFilter(isDone: Boolean): PorterDuffColorFilter
+    {
+        val resColor = if(isDone) R.color.completed else R.color.uncompleted
+        val colorValue = ContextCompat.getColor(requireContext(), resColor)
+        return PorterDuffColorFilter(colorValue, PorterDuff.Mode.SRC_ATOP)
     }
 
 }

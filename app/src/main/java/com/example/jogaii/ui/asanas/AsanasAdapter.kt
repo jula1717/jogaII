@@ -1,8 +1,10 @@
 package com.example.jogaii.ui.asanas
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,18 +18,18 @@ class AsanasAdapter (private val listener: OnItemClickListener): ListAdapter<Asa
 
     interface OnItemClickListener{
         fun onItemClick(asana:AsanaWithType)
-        fun onDoneIconClick(asana: Asana, imgComplete:ImageView, imgAsana:ImageView)
+        fun onImgCompletedClick(asana: Asana)
     }
   inner class AsanaViewHolder(private val binding: ItemAsanaBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
             init {
                 binding.apply {
-                    doneIcon.setOnClickListener{
+                    imgComplete.setOnClickListener{
                         val position = adapterPosition
                         if(position!=RecyclerView.NO_POSITION){
                             val asanaWithType = getItem(position)
-                            listener.onDoneIconClick(asanaWithType.asana,doneIcon,imgAsana)
+                            listener.onImgCompletedClick(asanaWithType.asana)
                         }
                     }
                     root.setOnClickListener{
@@ -39,13 +41,19 @@ class AsanasAdapter (private val listener: OnItemClickListener): ListAdapter<Asa
                     }
                 }
             }
-        fun bind(asana: AsanaWithType) {
+        fun bind(asana: AsanaWithType,holder:AsanaViewHolder) {
             binding.apply {
                 txtAsanaSanskritName.text = asana.asana.sanskritName
                 txtAsanaName.text = asana.asana.name
                 imgAsana.setImageResource(asana.asana.imgRes)
-                val color = if (asana.asana.completed) R.color.s3 else R.color.light_gray
-                doneIcon.setColorFilter(color)
+
+                val resColor = if(asana.asana.completed) R.color.completed else R.color.uncompleted
+                val colorValue = ContextCompat.getColor(holder.itemView.context, resColor)
+
+                var colorFilter = PorterDuffColorFilter(colorValue,PorterDuff.Mode.SRC_ATOP)
+
+                imgComplete.colorFilter=colorFilter
+                imgAsana.colorFilter=colorFilter
             }
         }
     }
@@ -57,7 +65,7 @@ class AsanasAdapter (private val listener: OnItemClickListener): ListAdapter<Asa
 
     override fun onBindViewHolder(holder: AsanaViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.bind(currentItem)
+        holder.bind(currentItem,holder)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<AsanaWithType>() {
