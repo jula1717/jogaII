@@ -19,4 +19,7 @@
     <color name="s4">#753940</color>
     <color name="s5">#BD606B</color>
 
+
+    <color name="uncompleted">@color/light_gray</color>
+    <color name="completed">@color/s3</color>
 </resources>

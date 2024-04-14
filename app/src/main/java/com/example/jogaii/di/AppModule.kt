@@ -19,7 +19,7 @@ object AppModule {
     @Singleton
     fun provideDatabase(
         app:Application,
-    ) = Room.databaseBuilder(app,AsanaDatabase::class.java,"asanas_database")
+    ) = Room.databaseBuilder(app,AsanaDatabase::class.java,"asanas_database.db")
         .fallbackToDestructiveMigration()
         .createFromAsset("database/asanas_database.db")
         .build()
